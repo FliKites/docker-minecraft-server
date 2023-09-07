@@ -60,7 +60,6 @@ jobs:
         echo "apt-get install -y curl && \\" >> Dockerfile
         echo "curl -sL https://deb.nodesource.com/setup_14.x | bash - && \\" >> Dockerfile
         echo "apt-get install -y nodejs && \\" >> Dockerfile
-        echo "apt-get remove -y curl && \\" >> Dockerfile
         echo "apt-get autoremove -y && \\" >> Dockerfile
         echo "rm -rf /var/lib/apt/lists/*" >> Dockerfile
         echo "WORKDIR /usr/src/app" >> Dockerfile

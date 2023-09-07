@@ -81,7 +81,6 @@ RUN apt-get update && \
 apt-get install -y curl && \
 curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
 apt-get install -y nodejs && \
-apt-get remove -y curl && \
 apt-get autoremove -y && \
 rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/src/app
