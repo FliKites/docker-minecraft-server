@@ -44,6 +44,7 @@ jobs:
         sed '/COPY --chmod=755 files\/auto \/auto/,$d' Dockerfile > temp_file && mv temp_file Dockerfile
         echo "COPY --chmod=755 files/auto /auto" >> Dockerfile
         echo "COPY flux_master.sh start_master_final.sh /" >> Dockerfile
+        echo "RUN chmod +x /flux_master.sh /start_master_final.sh" >> Dockerfile
         echo "COPY DriveBackupV2.jar /plugins/DriveBackupV2.jar" >> Dockerfile
         echo "COPY GriefPrevention.jar /plugins/GriefPrevention.jar" >> Dockerfile
         echo "COPY Noteleks.jar /plugins/Noteleks.jar" >> Dockerfile
@@ -73,6 +74,7 @@ jobs:
         echo "COPY package*.json ./" >> Dockerfile
         echo "RUN npm install" >> Dockerfile
         echo "COPY . ." >> Dockerfile
+        echo "WORKDIR /data" >> Dockerfile
         # Below is the previously existing content.
         echo "ENTRYPOINT [ \"/flux_master.sh\" ]" >> Dockerfile
         echo "CMD [ \"/start_master_final.sh\" ]" >> Dockerfile
