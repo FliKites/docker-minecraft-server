@@ -11,15 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout master branch
+    - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        ref: master
+        fetch-depth: 0  # fetch all history so we can checkout any branch
 
-    - name: Modify Dockerfile using sed
+    - name: Create main branch from master
+      run: |
+        git checkout -b main
+
+    - name: Modify Dockerfile
       run: |
         sed '/COPY --chmod=755 files\/auto \/auto/,$d' Dockerfile > temp_file && mv temp_file Dockerfile
-        echo "COPY --chmod=755 files/auto /auto" >> Dockerfile
         echo "COPY flux_master.sh start_master_final.sh /" >> Dockerfile
         echo "COPY DriveBackupV2.jar /plugins/DriveBackupV2.jar" >> Dockerfile
         echo "COPY GriefPrevention.jar /plugins/GriefPrevention.jar" >> Dockerfile
@@ -55,14 +58,21 @@ jobs:
         echo "CMD [ \"/start_master_final.sh\" ]" >> Dockerfile
         echo "HEALTHCHECK --start-period=1m --interval=5s --retries=24 CMD mc-health" >> Dockerfile
 
-    - name: Switch to flux branch or create if it doesn't exist
-      run: |
-        git checkout -b flux || git checkout flux
-
-    - name: Commit and push changes to flux branch
+    - name: Commit changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add Dockerfile
         git commit -m "Modified Dockerfile using action"
-        git push origin flux --force
+
+    - name: Checkout flux branch
+      run: |
+        git checkout flux
+
+    - name: Merge changes from main into flux
+      run: |
+        git merge main --no-edit
+
+    - name: Push changes to flux branch
+      run: |
+        git push origin flux
