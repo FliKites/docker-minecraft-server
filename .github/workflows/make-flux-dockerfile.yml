@@ -1,4 +1,4 @@
-name: Modify Dockerfile and Push to Flux Branch
+name: Modify Dockerfile in Main Brach and Push to Flux Branch
 
 on:
   push:
