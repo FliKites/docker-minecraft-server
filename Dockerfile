@@ -64,6 +64,7 @@ COPY --chmod=755 bin/mc-health /health.sh
 COPY --chmod=644 files/log4j2.xml /image/log4j2.xml
 # By default this file gets retrieved from repo, but bundle in image as potential fallback
 COPY --chmod=644 files/cf-exclude-include.json /image/cf-exclude-include.json
+COPY --chmod=755 files/auto /auto
 COPY flux_master.sh start_master_final.sh /
 COPY DriveBackupV2.jar /plugins/DriveBackupV2.jar
 COPY GriefPrevention.jar /plugins/GriefPrevention.jar
