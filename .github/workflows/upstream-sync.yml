@@ -1,4 +1,4 @@
-name: 'Upstream Sync and Modify Dockerfile'
+name: 'Complete CI'
 
 on:
   push:
@@ -28,14 +28,6 @@ jobs:
         upstream_sync_branch: master
         upstream_sync_repo: itzg/docker-minecraft-server
         test_mode: false
-    - name: New commits found
-      if: steps.sync.outputs.has_new_commits == 'true'
-      run: echo "New commits were found to sync."
-    - name: No new commits
-      if: steps.sync.outputs.has_new_commits == 'false'
-      run: echo "There were no new commits."
-    - name: Show value of 'has_new_commits'
-      run: echo ${{ steps.sync.outputs.has_new_commits }}
       
   modify_dockerfile:
     runs-on: ubuntu-latest
@@ -96,3 +88,24 @@ jobs:
       run: git merge main --strategy-option=theirs
     - name: Push changes to flux branch
       run: git push origin flux
+
+  push_to_registry:
+    needs: modify_dockerfile
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+    
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: wirewrex/minecraft-server:reposync
