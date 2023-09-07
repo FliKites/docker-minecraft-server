@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - flux
 permissions:
   contents: write
 jobs:
