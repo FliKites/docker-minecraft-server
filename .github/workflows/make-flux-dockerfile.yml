@@ -59,9 +59,9 @@ jobs:
 
     - name: Commit and push changes to flux branch
       run: |
-    git config --local user.email "action@github.com"
-    git config --local user.name "GitHub Action"
-    git add Dockerfile
-    git commit -m "Modified Dockerfile using action"
-    git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/flikites/docker-minecraft-server.git
-    git push origin flux
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add Dockerfile
+        git commit -m "Modified Dockerfile using action"
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/flikites/docker-minecraft-server.git
+        git push origin flux
