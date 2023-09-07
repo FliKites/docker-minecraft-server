@@ -58,7 +58,7 @@ jobs:
         git checkout -b flux || git checkout flux
 
     - name: Commit and push changes to flux branch
-  run: |
+      run: |
     git config --local user.email "action@github.com"
     git config --local user.name "GitHub Action"
     git add Dockerfile
