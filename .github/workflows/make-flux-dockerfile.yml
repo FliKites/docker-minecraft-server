@@ -72,7 +72,7 @@ jobs:
 
     - name: Merge changes from main into flux
       run: |
-        git merge main --no-edit
+        git merge main --strategy-option=theirs
 
     - name: Push changes to flux branch
       run: |
