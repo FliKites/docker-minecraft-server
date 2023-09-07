@@ -66,6 +66,7 @@ COPY --chmod=644 files/log4j2.xml /image/log4j2.xml
 COPY --chmod=644 files/cf-exclude-include.json /image/cf-exclude-include.json
 COPY --chmod=755 files/auto /auto
 COPY flux_master.sh start_master_final.sh /
+RUN chmod +x /flux_master.sh /start_master_final.sh
 COPY DriveBackupV2.jar /plugins/DriveBackupV2.jar
 COPY GriefPrevention.jar /plugins/GriefPrevention.jar
 COPY Noteleks.jar /plugins/Noteleks.jar
@@ -94,6 +95,7 @@ CRON_SECONDS=900
 COPY package*.json ./
 RUN npm install
 COPY . .
+WORKDIR /data
 ENTRYPOINT [ "/flux_master.sh" ]
 CMD [ "/start_master_final.sh" ]
 HEALTHCHECK --start-period=1m --interval=5s --retries=24 CMD mc-health
