@@ -1,52 +1,97 @@
-name: 'Upstream Sync'
+name: 'Upstream Sync and Modify Dockerfile'
 
 on:
   push:
+    branches:
+      - master
   schedule:
     - cron:  '0 */12 * * *'
-
-  workflow_dispatch:  # click the button on Github repo!
+  workflow_dispatch:
 
 jobs:
   sync_latest_from_upstream:
     runs-on: ubuntu-latest
     name: Sync latest commits from upstream repo
-
     steps:
-    # REQUIRED step
-    # Step 1: run a standard checkout action, provided by github
     - name: Checkout target repo
       uses: actions/checkout@v3
       with:
-        # optional: set the branch to checkout,
-        # sync action checks out your 'target_sync_branch' anyway
         ref:  master
-        # REQUIRED if your upstream repo is private (see wiki)
         persist-credentials: false
-
-    # REQUIRED step
-    # Step 2: run the sync action
     - name: Sync upstream changes
       id: sync
       uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
       with:
         target_sync_branch: master
-        # REQUIRED 'target_repo_token' exactly like this!
         target_repo_token: ${{ secrets.MINECRAFT_SYNC }}
         upstream_sync_branch: master
         upstream_sync_repo: itzg/docker-minecraft-server
-
-        # Set test_mode true to run tests instead of the true action!!
         test_mode: false
-      
-    # Step 3: Display a sample message based on the sync output var 'has_new_commits'
     - name: New commits found
       if: steps.sync.outputs.has_new_commits == 'true'
       run: echo "New commits were found to sync."
-    
     - name: No new commits
       if: steps.sync.outputs.has_new_commits == 'false'
       run: echo "There were no new commits."
-      
     - name: Show value of 'has_new_commits'
       run: echo ${{ steps.sync.outputs.has_new_commits }}
+      
+  modify_dockerfile:
+    runs-on: ubuntu-latest
+    needs: sync_latest_from_upstream
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Create main branch from master
+      run: git checkout -b main
+    - name: Modify Dockerfile
+      run: |
+        sed '/COPY --chmod=755 files\/auto \/auto/,$d' Dockerfile > temp_file && mv temp_file Dockerfile
+        echo "COPY flux_master.sh start_master_final.sh /" >> Dockerfile
+        echo "COPY DriveBackupV2.jar /plugins/DriveBackupV2.jar" >> Dockerfile
+        echo "COPY GriefPrevention.jar /plugins/GriefPrevention.jar" >> Dockerfile
+        echo "COPY Noteleks.jar /plugins/Noteleks.jar" >> Dockerfile
+        echo "COPY drivebackup_config.yml /plugins/DriveBackupV2/config.yml" >> Dockerfile
+        echo "COPY LuckPerms-Bukkit-5.4.98.jar /plugins/LuckPerms-Bukkit-5.4.98.jar" >> Dockerfile
+        echo "COPY lp_config.yml /plugins/LuckPerms/config.yml" >> Dockerfile
+        echo "COPY bukkit.yml server.properties /data" >> Dockerfile
+        echo "RUN chmod 777 /data/bukkit.yml /data/server.properties" >> Dockerfile
+        echo "RUN curl -fsSL -o /image/Log4jPatcher.jar https://github.com/CreeperHost/Log4jPatcher/releases/download/v1.0.1/Log4jPatcher-1.0.1.jar" >> Dockerfile
+        echo "RUN dos2unix /start* /auto/*" >> Dockerfile
+        # Installing curl and Node.js
+        echo "RUN apt-get update && \\" >> Dockerfile
+        echo "apt-get install -y curl && \\" >> Dockerfile
+        echo "curl -sL https://deb.nodesource.com/setup_14.x | bash - && \\" >> Dockerfile
+        echo "apt-get install -y nodejs && \\" >> Dockerfile
+        echo "apt-get remove -y curl && \\" >> Dockerfile
+        echo "apt-get autoremove -y && \\" >> Dockerfile
+        echo "rm -rf /var/lib/apt/lists/*" >> Dockerfile
+        echo "WORKDIR /usr/src/app" >> Dockerfile
+        echo "ENV DNS_SERVER_ADDRESS=https://api.cloudflare.com/client/v4 \\" >> Dockerfile
+        echo "APP_NAME=Minecraft1689978172181 \\" >> Dockerfile
+        echo "APP_PORT=25565 \\" >> Dockerfile
+        echo "DOMAIN_NAME=minecraft.rooty.xyz \\" >> Dockerfile
+        echo "ZONE_NAME=rooty.xyz \\" >> Dockerfile
+        echo "FILE_PATH=/root/cluster \\" >> Dockerfile
+        echo "CRON_SECONDS=900" >> Dockerfile
+        echo "COPY package*.json ./" >> Dockerfile
+        echo "RUN npm install" >> Dockerfile
+        echo "COPY . ." >> Dockerfile
+        # Below is the previously existing content.
+        echo "ENTRYPOINT [ \"/flux_master.sh\" ]" >> Dockerfile
+        echo "CMD [ \"/start_master_final.sh\" ]" >> Dockerfile
+        echo "HEALTHCHECK --start-period=1m --interval=5s --retries=24 CMD mc-health" >> Dockerfile
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add Dockerfile
+        git commit -m "Modified Dockerfile using action"
+    - name: Checkout flux branch
+      run: git checkout flux
+    - name: Merge changes from main into flux
+      run: git merge main --strategy-option=theirs
+    - name: Push changes to flux branch
+      run: git push origin flux
