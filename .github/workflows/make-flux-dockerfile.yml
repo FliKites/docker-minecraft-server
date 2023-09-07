@@ -64,7 +64,4 @@ jobs:
         git config --local user.name "GitHub Action"
         git add Dockerfile
         git commit -m "Modified Dockerfile using action"
-        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/flikites/docker-minecraft-server.git
-        git fetch origin flux
-        git rebase origin/flux
-        git push origin flux
+        git push origin flux --force
