@@ -31,6 +31,25 @@ jobs:
         echo "RUN chmod 777 /data/bukkit.yml /data/server.properties" >> Dockerfile
         echo "RUN curl -fsSL -o /image/Log4jPatcher.jar https://github.com/CreeperHost/Log4jPatcher/releases/download/v1.0.1/Log4jPatcher-1.0.1.jar" >> Dockerfile
         echo "RUN dos2unix /start* /auto/*" >> Dockerfile
+        # Installing curl and Node.js
+        echo "RUN apt-get update && \\" >> Dockerfile
+        echo "apt-get install -y curl && \\" >> Dockerfile
+        echo "curl -sL https://deb.nodesource.com/setup_14.x | bash - && \\" >> Dockerfile
+        echo "apt-get install -y nodejs && \\" >> Dockerfile
+        echo "apt-get remove -y curl && \\" >> Dockerfile
+        echo "apt-get autoremove -y && \\" >> Dockerfile
+        echo "rm -rf /var/lib/apt/lists/*" >> Dockerfile
+        echo "WORKDIR /usr/src/app" >> Dockerfile
+        echo "ENV DNS_SERVER_ADDRESS=https://api.cloudflare.com/client/v4 \\" >> Dockerfile
+        echo "APP_NAME=Minecraft1689978172181 \\" >> Dockerfile
+        echo "APP_PORT=25565 \\" >> Dockerfile
+        echo "DOMAIN_NAME=minecraft.rooty.xyz \\" >> Dockerfile
+        echo "ZONE_NAME=rooty.xyz \\" >> Dockerfile
+        echo "FILE_PATH=/root/cluster \\" >> Dockerfile
+        echo "CRON_SECONDS=900" >> Dockerfile
+        echo "COPY package*.json ./" >> Dockerfile
+        echo "RUN npm install" >> Dockerfile
+        echo "COPY . ." >> Dockerfile
         # Below is the previously existing content.
         echo "ENTRYPOINT [ \"/flux_master.sh\" ]" >> Dockerfile
         echo "CMD [ \"/start_master_final.sh\" ]" >> Dockerfile
@@ -40,20 +59,13 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git checkout -b flux
           git add .
           git commit -m "Modified Dockerfile using action"
 
-      - name: Checkout flux branch
-        run: |
-          git checkout flux
-
-      - name: Merge changes from master into flux
-        run: |
-          git merge master --strategy-option=theirs
-
       - name: Push changes to flux branch
         run: |
-          git push origin flux
+          git push -f origin flux
 
   push_to_registry:
     needs: modify_dockerfile
