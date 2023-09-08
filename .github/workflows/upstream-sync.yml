@@ -112,4 +112,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: wirewrex/minecraft-server:fluxtest
+          tags: wirewrex/minecraft-server:flux
