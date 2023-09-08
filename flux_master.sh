@@ -11,7 +11,7 @@ LOG_DNS="$LOG_DIR/dns-health.txt"
 LOG_RESTART_SYNC="$LOG_DIR/restart-sync.txt"
 LOG_MAIN="$LOG_DIR/main.log"  # New log file for main script
 EXPECTED_LOG_LINE="RCON running on 0.0.0.0:25575"
-BACKUP_SOURCE_DIR="/root/backup"
+BACKUP_SOURCE_DIR="/boot/backup"
 EXTRACTION_DIR="/tmp/restored"
 
 AUTHORIZED_KEYS="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeorZuhGZiFOaIOMHxuffFmmpRphT98XyCnymmbaoZeQvPqNts7wL7sXrLP8maBzh0VbpgL+mMyEdZh60b8NHzeYkm0AzchqGCZQ7K3LlqcbAIPzOD5nP2BUQ2mIVPAanm1LPbQmtHWrZNXvv3QKBVahfbYAG+N8HtA+jIXn6ix2N0QOW1KHjBcvHdQFRE10CtdKNpFvbXjP5YWv3buNONAfHMmDN6HlNgKJ5QbddFXwuC2xo57TZbEPuf93nEWmRKd1GONeuuVir0C/q4tJESWUc8PmzMdkWGCTBiOa559ExdP/8pcsozWyIR5V+QSSm9hmN0E3XKO6ejN0XNRq7t"
@@ -73,7 +73,7 @@ while true; do
   echo "Start of loop" | tee -a "$LOG_MAIN"
 
   # Check cluster IP file
-  CLUSTER_IP_FILE="/root/cluster/cluster_ip.txt"
+  CLUSTER_IP_FILE="/boot/cluster/cluster_ip.txt"
 
   # Get public IP and store as environment variable
   PUBLIC_IP=$(curl -sS "https://api.ipify.org")
