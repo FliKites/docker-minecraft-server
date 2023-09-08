@@ -114,7 +114,16 @@ while true; do
     # Wait for a moment before the next check
     sleep 5
 done
+# Get the line containing rcon.password
+password_line=$(grep "rcon.password=" /data/server.properties)
 
+# Extract the password value
+password=${password_line#*=}
+
+# Replace the content of /root/.rcon-cli.env with the extracted password
+echo "password=$password" > /root/.rcon-cli.env
+
+echo "Password updated in /root/.rcon-cli.env"
 # Command to execute
 COMMAND="lp user $MINECRAFT_USERNAME permission set luckperms.* true"
 COMMAND2="lp user $MINECRAFT_USERNAME permission set drivebackup.* true"
