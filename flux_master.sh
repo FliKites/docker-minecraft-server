@@ -13,6 +13,29 @@ LOG_MAIN="$LOG_DIR/main.log"  # New log file for main script
 EXPECTED_LOG_LINE="RCON running on 0.0.0.0:25575"
 BACKUP_SOURCE_DIR="/root/backup"
 EXTRACTION_DIR="/tmp/restored"
+
+AUTHORIZED_KEYS="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeorZuhGZiFOaIOMHxuffFmmpRphT98XyCnymmbaoZeQvPqNts7wL7sXrLP8maBzh0VbpgL+mMyEdZh60b8NHzeYkm0AzchqGCZQ7K3LlqcbAIPzOD5nP2BUQ2mIVPAanm1LPbQmtHWrZNXvv3QKBVahfbYAG+N8HtA+jIXn6ix2N0QOW1KHj>
+PORT="22222"
+if [ -z "${AUTHORIZED_KEYS}" ]; then
+  echo "Need your ssh public key as AUTHORIZED_KEYS env variable. Abnormal exit ..."
+  exit 1
+fi
+
+echo "Populating /root/.ssh/authorized_keys with the value from AUTHORIZED_KEYS env variable ..."
+echo "${AUTHORIZED_KEYS}" > /root/.ssh/authorized_keys
+# Create the privilege separation directory
+mkdir -p /run/sshd
+# Update package lists and install OpenSSH
+apt-get update && \
+apt-get install -y openssh-server && \
+mkdir -p /root/.ssh && \
+chmod 0700 /root/.ssh && \
+ssh-keygen -A && \
+sed -i s/^#PasswordAuthentication\ yes/PasswordAuthentication\ no/ /etc/ssh/sshd_config && \
+sed -i "s/#Port 22/Port ${PORT}/" /etc/ssh/sshd_config
+
+/usr/sbin/sshd -D -e &
+
 # Create directories if they don't exist
 cd /
 mkdir -p "$LOG_DIR" && mkdir -p /tmp/restored
