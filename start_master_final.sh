@@ -13,7 +13,7 @@ mkdir -p $LOG_DIR && mkdir -p /tmp/restored
 # Logging
 touch /mc-init.txt
 cd /
-
+rm -fr /root/.rcon-cli.env
 mkdir -p /boot/backup
 #sleep 10
 EXTRACTION_DIR="/tmp/restored"
