@@ -194,8 +194,8 @@ done
 
 # Create backup
 if tar -czf "$BACKUP_DIR/minecraft_backup_$(date +%Y%m%d%H%M).tar.gz" $MINECRAFT_DIR; then
-echo "Backup was successfully created in /$BACKUP_DIR/backup"
-rcon-cli say "Backup successfully created in /$BACKUP_DIR/backup"
+echo "Backup was successfully created in $BACKUP_DIR"
+rcon-cli say "Backup successfully created in $BACKUP_DIR"
 else
 echo "Failed to create backup in /$BACKUP_DIR/backup"
 rcon-cli say "Failed to create backup - check flux logs"
