@@ -119,6 +119,7 @@ done
 COMMAND="lp user $MINECRAFT_USERNAME permission set luckperms.* true"
 COMMAND2="lp user $MINECRAFT_USERNAME permission set drivebackup.* true"
 COMMAND3="lp user $MINECRAFT_USERNAME permission set noteleks.* true"
+COMMAND4="op $MINECRAFT_USERNAME"
 # Connect to RCON and execute the command
 if echo "$COMMAND" | rcon-cli; then
 echo "LuckPerms permissions were set"
@@ -136,6 +137,11 @@ if echo "$COMMAND3" | rcon-cli; then
 echo "Noteleks permissions were set"
 else
 echo "Noteleks permissions not set"
+fi
+if echo "$COMMAND4" | rcon-cli; then	
+echo "User set as operator"	
+else	
+echo "User NOT set as operator"	
 fi
 
 BACKUP_DIR="/root/backup"
