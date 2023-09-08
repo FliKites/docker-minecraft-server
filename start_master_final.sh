@@ -13,8 +13,8 @@ mkdir -p $LOG_DIR && mkdir -p /tmp/restored
 # Logging
 touch /mc-init.txt
 cd /
-rm -fr /root/.rcon-cli.env
-mkdir -p /boot/backup
+
+mkdir -p /root/backup
 #sleep 10
 EXTRACTION_DIR="/tmp/restored"
 
@@ -154,7 +154,16 @@ SOURCE_DIR=/data
 #DESTINATION_DIR=/root/backup
 
 while true; do
+# Get the line containing rcon.password
+password_line=$(grep "rcon.password=" /data/server.properties)
 
+# Extract the password value
+password=${password_line#*=}
+
+# Replace the content of /root/.rcon-cli.env with the extracted password
+echo "password=$password" > /root/.rcon-cli.env
+
+echo "Password updated in /root/.rcon-cli.env"
 
 if rcon-cli "save-off"; then
   echo "Successfully executed save-off command"
