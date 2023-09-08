@@ -1,4 +1,4 @@
-name: 'Sync Upstream, ModifyDockerfile, Docker Build CI'
+name: 'Sync Upstream, ModifyDockerfile, Docker CI'
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
         target_repo_token: ${{ secrets.MINECRAFT_SYNC }}
         upstream_sync_branch: master
         upstream_sync_repo: itzg/docker-minecraft-server
-        test_mode: false
+        test_mode: true
       
   modify_dockerfile:
     runs-on: ubuntu-latest
