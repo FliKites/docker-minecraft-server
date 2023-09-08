@@ -1,4 +1,4 @@
-name: 'Sync Upstream, Modify Dockerfile, Docker Build CI'
+name: 'SyncUpstream, ModifyDockerfile, Docker Build CI'
 
 on:
   push:
