@@ -38,7 +38,7 @@ async function checkIP(workerData) {
       let attempts = 0;
 
       console.log("Checking Minecraft activity...");
-      while (attempts < 5 && !minecraftActive) {
+      while (attempts < 3 && !minecraftActive) {
         minecraftActive = await checkMinecraftActivity(ip, app_port);
         await new Promise((resolve) =>
           setTimeout(resolve, MASTER_RETRY_INTERVAL)
