@@ -135,7 +135,6 @@ PID2=$(cat "$PID2_FILE")
 
 if [ -z "$PID2" ]; then
   echo "No PID found in file"
-  exit 1
 fi
 
 kill $PID2
