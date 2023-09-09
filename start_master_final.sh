@@ -7,14 +7,14 @@ EXPECTED_LOG_LINE="RCON running on 0.0.0.0:25575"
 BACKUP_INTERVAL_MINUTES=${BACKUP_INTERVAL:=5} # default to 1 minute if not set
 BACKUP_INTERVAL_SECONDS=$((BACKUP_INTERVAL_MINUTES * 60))
 FILE="/data/bukkit.yml"
-BACKUP_SOURCE_DIR="/root/backup"
+BACKUP_SOURCE_DIR="/boot/backup"
 # Create directories if they don't exist
 mkdir -p $LOG_DIR && mkdir -p /tmp/restored
 # Logging
 touch /mc-init.txt
 cd /
 
-mkdir -p /root/backup
+mkdir -p /boot/backup
 #sleep 10
 EXTRACTION_DIR="/tmp/restored"
 
@@ -120,7 +120,7 @@ password_line=$(grep "rcon.password=" /data/server.properties)
 # Extract the password value
 password=${password_line#*=}
 
-# Replace the content of /root/.rcon-cli.env with the extracted password
+# Replace the content of //.rcon-cli.env with the extracted password
 echo "password=$password" > /root/.rcon-cli.env
 
 echo "Password updated in /root/.rcon-cli.env"
@@ -153,7 +153,7 @@ else
 echo "User NOT set as operator"	
 fi
 
-BACKUP_DIR="/root/backup"
+BACKUP_DIR="/boot/backup"
 #MINECRAFT_DIR="/data"
 MINECRAFT_DIR="/data/world /data/plugins"
 #SERVER_PROPERTIES=/data/server.properties
