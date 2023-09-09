@@ -183,6 +183,6 @@ fi
   fi
 
   # Sleep before checking again
-  echo "Sleeping for 60 seconds before checking again" | tee -a "$LOG_MAIN"
-  sleep 60
+  echo "Sleeping for 30 seconds before checking again" | tee -a "$LOG_MAIN"
+  sleep 30
 done
