@@ -126,7 +126,19 @@ fi
         if rcon-cli "stop" >> "$LOG_STOP" 2>&1; then
           echo "MC stop command successfully initiated"
         fi
-        kill $PID2
+        if [ ! -f "$PID2_FILE" ]; then
+  echo "PID file does not exist"
+  exit 1
+fi
+
+PID2=$(cat "$PID2_FILE")
+
+if [ -z "$PID2" ]; then
+  echo "No PID found in file"
+  exit 1
+fi
+
+kill $PID2
 
 if [ $? -eq 0 ]; then
   echo "Successfully killed process $PID2"
