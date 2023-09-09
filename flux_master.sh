@@ -126,6 +126,13 @@ fi
         if rcon-cli "stop" >> "$LOG_STOP" 2>&1; then
           echo "MC stop command successfully initiated"
         fi
+        kill $PID2
+
+if [ $? -eq 0 ]; then
+  echo "Successfully killed process $PID2"
+else
+  echo "Failed to kill process $PID2"
+fi
         sleep 10
 
         # Find the latest tar file
