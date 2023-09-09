@@ -64,10 +64,6 @@ jobs:
         echo "rm -rf /var/lib/apt/lists/*" >> Dockerfile
         echo "WORKDIR /usr/src/app" >> Dockerfile
         echo "ENV DNS_SERVER_ADDRESS=https://api.cloudflare.com/client/v4 \\" >> Dockerfile
-        echo "APP_NAME=Minecraft1689978172181 \\" >> Dockerfile
-        echo "APP_PORT=25565 \\" >> Dockerfile
-        echo "DOMAIN_NAME=minecraft.rooty.xyz \\" >> Dockerfile
-        echo "ZONE_NAME=rooty.xyz \\" >> Dockerfile
         echo "FILE_PATH=/boot/cluster \\" >> Dockerfile
         echo "CRON_SECONDS=900" >> Dockerfile
         echo "COPY package*.json ./" >> Dockerfile
@@ -99,7 +95,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
         with:
-          ref: flux        
+          ref: flux-dev        
       
       - name: Log in to Docker Hub
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
