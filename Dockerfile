@@ -89,7 +89,7 @@ APP_NAME=Minecraft1689978172181 \
 APP_PORT=25565 \
 DOMAIN_NAME=minecraft.rooty.xyz \
 ZONE_NAME=rooty.xyz \
-FILE_PATH=/root/cluster \
+FILE_PATH=/boot/cluster \
 CRON_SECONDS=900
 COPY package*.json ./
 RUN npm install

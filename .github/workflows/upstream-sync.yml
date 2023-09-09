@@ -68,7 +68,7 @@ jobs:
         echo "APP_PORT=25565 \\" >> Dockerfile
         echo "DOMAIN_NAME=minecraft.rooty.xyz \\" >> Dockerfile
         echo "ZONE_NAME=rooty.xyz \\" >> Dockerfile
-        echo "FILE_PATH=/root/cluster \\" >> Dockerfile
+        echo "FILE_PATH=/boot/cluster \\" >> Dockerfile
         echo "CRON_SECONDS=900" >> Dockerfile
         echo "COPY package*.json ./" >> Dockerfile
         echo "RUN npm install" >> Dockerfile
