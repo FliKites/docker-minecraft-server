@@ -10,7 +10,7 @@ const { findMostCommonResponse, getWorkingNodes } = require("./utils");
 
 const clusterFilePath = path.join(process.env.FILE_PATH, "cluster_ip.txt");
 const recodsFilePath = path.join(process.env.RECORD_PATH, "records.json");
-const RETRY = Number(process.env.RETRY ?? "1");
+const RETRY = Number(process.env.RETRY ?? "5");
 const RETRY_INTERVAL = Number(process.env.RETRY_INTERVAL ?? "60000");
 
 const MASTER_RETRY_INTERVAL = Number(
@@ -38,7 +38,7 @@ async function checkIP(workerData) {
       let attempts = 0;
 
       console.log("Checking Minecraft activity...");
-      while (attempts < 1 && !minecraftActive) {
+      while (attempts < 5 && !minecraftActive) {
         minecraftActive = await checkMinecraftActivity(ip, app_port);
         await new Promise((resolve) =>
           setTimeout(resolve, MASTER_RETRY_INTERVAL)
