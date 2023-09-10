@@ -65,7 +65,7 @@ jobs:
         echo "WORKDIR /usr/src/app" >> Dockerfile
         echo "ENV DNS_SERVER_ADDRESS=https://api.cloudflare.com/client/v4 \\" >> Dockerfile
         echo "FILE_PATH=/root/cluster \\" >> Dockerfile
-        echo "RECORD_PATH=/root/cluster \\" >> Dockerfile
+        echo "RECORD_PATH=/root \\" >> Dockerfile
         echo "EULA=TRUE \\" >> Dockerfile
         echo "DIFFICULTY=easy \\" >> Dockerfile
         echo "INIT_MEMORY=5G \\" >> Dockerfile
