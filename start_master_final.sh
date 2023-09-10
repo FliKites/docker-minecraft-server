@@ -7,14 +7,14 @@ EXPECTED_LOG_LINE="RCON running on 0.0.0.0:25575"
 BACKUP_INTERVAL_MINUTES=${BACKUP_INTERVAL:=5} # default to 1 minute if not set
 BACKUP_INTERVAL_SECONDS=$((BACKUP_INTERVAL_MINUTES * 60))
 FILE="/data/bukkit.yml"
-BACKUP_SOURCE_DIR="/boot/backup"
+BACKUP_SOURCE_DIR="/root/backup"
 # Create directories if they don't exist
 mkdir -p $LOG_DIR && mkdir -p /tmp/restored
 # Logging
 touch /mc-init.txt
 cd /
 
-mkdir -p /boot/backup
+mkdir -p /root/backup
 #sleep 10
 EXTRACTION_DIR="/tmp/restored"
 
@@ -153,7 +153,7 @@ else
 echo "User NOT set as operator"	
 fi
 
-BACKUP_DIR="/boot/backup"
+BACKUP_DIR="/root/backup"
 #MINECRAFT_DIR="/data"
 MINECRAFT_DIR="/data/world /data/plugins"
 #SERVER_PROPERTIES=/data/server.properties
