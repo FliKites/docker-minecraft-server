@@ -85,7 +85,15 @@ apt-get autoremove -y && \
 rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/src/app
 ENV DNS_SERVER_ADDRESS=https://api.cloudflare.com/client/v4 \
-FILE_PATH=/boot/cluster \
+FILE_PATH=/root/cluster \
+RECORD_PATH=/root/cluster \
+EULA=TRUE \
+DIFFICULTY=easy \
+INIT_ MEMORY=5G \
+MAX_MEMORY=5G \
+TYPE=SPIGOT \
+APP_PORT=25565 \
+BUILD_FROM_SOURCE=true \
 CRON_SECONDS=900
 COPY package*.json ./
 RUN npm install

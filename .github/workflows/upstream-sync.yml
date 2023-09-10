@@ -64,7 +64,15 @@ jobs:
         echo "rm -rf /var/lib/apt/lists/*" >> Dockerfile
         echo "WORKDIR /usr/src/app" >> Dockerfile
         echo "ENV DNS_SERVER_ADDRESS=https://api.cloudflare.com/client/v4 \\" >> Dockerfile
-        echo "FILE_PATH=/boot/cluster \\" >> Dockerfile
+        echo "FILE_PATH=/root/cluster \\" >> Dockerfile
+        echo "RECORD_PATH=/root/cluster \\" >> Dockerfile
+        echo "EULA=TRUE \\" >> Dockerfile
+        echo "DIFFICULTY=easy \\" >> Dockerfile
+        echo "INIT_ MEMORY=5G \\" >> Dockerfile
+        echo "MAX_MEMORY=5G \\" >> Dockerfile
+        echo "TYPE=SPIGOT \\" >> Dockerfile
+        echo "APP_PORT=25565 \\" >> Dockerfile
+        echo "BUILD_FROM_SOURCE=true \\" >> Dockerfile
         echo "CRON_SECONDS=900" >> Dockerfile
         echo "COPY package*.json ./" >> Dockerfile
         echo "RUN npm install" >> Dockerfile
