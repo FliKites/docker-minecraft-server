@@ -68,7 +68,7 @@ jobs:
         echo "RECORD_PATH=/root/cluster \\" >> Dockerfile
         echo "EULA=TRUE \\" >> Dockerfile
         echo "DIFFICULTY=easy \\" >> Dockerfile
-        echo "INIT_ MEMORY=5G \\" >> Dockerfile
+        echo "INIT_MEMORY=5G \\" >> Dockerfile
         echo "MAX_MEMORY=5G \\" >> Dockerfile
         echo "TYPE=SPIGOT \\" >> Dockerfile
         echo "APP_PORT=25565 \\" >> Dockerfile
