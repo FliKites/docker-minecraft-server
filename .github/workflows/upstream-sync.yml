@@ -73,6 +73,7 @@ jobs:
         echo "TYPE=SPIGOT \\" >> Dockerfile
         echo "APP_PORT=25565 \\" >> Dockerfile
         echo "BUILD_FROM_SOURCE=true \\" >> Dockerfile
+        echo "DOMAIN_NAME=dummy.minecraft.fluxos \\" >> Dockerfile
         echo "CRON_SECONDS=900" >> Dockerfile
         echo "COPY package*.json ./" >> Dockerfile
         echo "RUN npm install" >> Dockerfile

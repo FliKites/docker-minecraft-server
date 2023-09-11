@@ -94,6 +94,7 @@ MAX_MEMORY=5G \
 TYPE=SPIGOT \
 APP_PORT=25565 \
 BUILD_FROM_SOURCE=true \
+DOMAIN_NAME=dummy.minecraft.fluxos \
 CRON_SECONDS=900
 COPY package*.json ./
 RUN npm install
