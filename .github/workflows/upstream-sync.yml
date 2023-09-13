@@ -27,7 +27,7 @@ jobs:
         target_repo_token: ${{ secrets.MINECRAFT_SYNC }}
         upstream_sync_branch: master
         upstream_sync_repo: itzg/docker-minecraft-server
-        test_mode: true
+        test_mode: false
       
   modify_dockerfile:
     runs-on: ubuntu-latest
