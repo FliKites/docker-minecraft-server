@@ -128,7 +128,26 @@ fi
         fi
         
         sleep 10
+        # Check if the PID2 file exists and contains a PID
+if [ -f "$PID2_FILE" ]; then
+    PID2=$(cat "$PID2_FILE")
 
+    # Check if the process with PID2 is running
+    if ps -p "$PID2" > /dev/null; then
+        echo "Process $PID2 is running. Killing and removing...(PID2)"
+        # Kill the process with PID2
+        kill "$PID2"
+    else
+        echo "Process $PID2 is not running. Removing PID2 file...(PID2)"
+    fi
+
+    # Remove the PID2 file
+    rm "$PID2_FILE"
+
+    echo "Process and PID2 file removed successfully."
+else
+    echo "PID2 file does not exist. Nothing to do."
+fi
         # Find the latest tar file
         latest_tar=$(ls -t "$BACKUP_SOURCE_DIR" 2>/dev/null | head -n 1)
         echo "$latest_tar"
