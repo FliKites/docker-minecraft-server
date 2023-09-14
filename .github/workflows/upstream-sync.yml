@@ -84,12 +84,7 @@ jobs:
           echo "ENTRYPOINT [ \"/flux_master.sh\" ]" >> Dockerfile
           echo "CMD [ \"/start_master_final.sh\" ]" >> Dockerfile
           echo "HEALTHCHECK --start-period=1m --interval=5s --retries=24 CMD mc-health" >> Dockerfile
-      - name: Commit changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "Modified Dockerfile using action"
+  
       - name: Push changes to main branch
         run: git push --force origin main
       - name: Push changes to flux branch
