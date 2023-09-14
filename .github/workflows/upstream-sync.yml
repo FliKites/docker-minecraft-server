@@ -3,7 +3,7 @@ name: 'Sync Upstream, ModifyDockerfile, DockerCI'
 on:
   push:
     branches:
-      - flux
+      - master
   schedule:
     - cron: '0 */12 * * *'
   workflow_dispatch:
@@ -20,6 +20,11 @@ jobs:
         with:
           ref: master
           persist-credentials: false
+      - name: Delete main branch if it exists
+        run: |
+          if git show-ref --quiet refs/heads/main; then
+            git branch -d main
+          fi
       - name: Sync upstream changes
         id: sync
         uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
@@ -84,9 +89,14 @@ jobs:
           echo "ENTRYPOINT [ \"/flux_master.sh\" ]" >> Dockerfile
           echo "CMD [ \"/start_master_final.sh\" ]" >> Dockerfile
           echo "HEALTHCHECK --start-period=1m --interval=5s --retries=24 CMD mc-health" >> Dockerfile
-  
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Modified Dockerfile using action"
       - name: Push changes to main branch
-        run: git push --force origin main
+        run: git push origin main
       - name: Push changes to flux branch
         run: git push origin flux
 
