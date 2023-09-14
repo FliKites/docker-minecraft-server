@@ -1,4 +1,4 @@
-name: Test and Build multi-architecture
+name: Build and Publish
 on:
   push:
     branches:
@@ -20,8 +20,9 @@ jobs:
         variant:
           - java20
           - java20-alpine
+          - java20-graalvm
           - java17
-          - java17-graalvm-ce
+          - java17-graalvm
           - java17-jdk
           - java17-openj9
           - java17-alpine
@@ -43,14 +44,18 @@ jobs:
             baseImage: eclipse-temurin:20-jre-alpine
             platforms: linux/amd64
             mcVersion: 1.19.3
+          - variant: java20-graalvm
+            baseImage: container-registry.oracle.com/graalvm/jdk:20-ol8
+            platforms: linux/amd64,linux/arm64
+            mcVersion: 1.19.3
         # JAVA 17:
           - variant: java17
             # jammy doesn't work until minecraft updates to https://github.com/netty/netty/issues/12343
             baseImage: eclipse-temurin:17-jre-focal
             platforms: linux/amd64,linux/arm/v7,linux/arm64
             mcVersion: 1.18.2
-          - variant: java17-graalvm-ce
-            baseImage: ghcr.io/graalvm/graalvm-ce:ol8-java17
+          - variant: java17-graalvm
+            baseImage: container-registry.oracle.com/graalvm/jdk:17-ol8
             platforms: linux/amd64,linux/arm64
             mcVersion: 1.18.2
           - variant: java17-jdk
@@ -106,7 +111,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # for build-files step
           fetch-depth: 0
@@ -145,7 +150,7 @@ jobs:
         uses: docker/setup-qemu-action@v2.2.0
 
       - name: Build for test
-        uses: docker/build-push-action@v4.1.1
+        uses: docker/build-push-action@v4.2.1
         with:
           platforms: linux/amd64
           tags: ${{ env.IMAGE_TO_TEST }}
@@ -183,7 +188,7 @@ jobs:
           password: ${{ github.token }}
 
       - name: Build and push
-        uses: docker/build-push-action@v4.1.1
+        uses: docker/build-push-action@v4.2.1
         if: github.actor == github.repository_owner
         with:
           platforms: ${{ matrix.platforms }}
