@@ -3,7 +3,7 @@ name: 'Sync Upstream, ModifyDockerfile, DockerCI'
 on:
   push:
     branches:
-      - master
+      - flux
   schedule:
     - cron: '0 */12 * * *'
   workflow_dispatch:
