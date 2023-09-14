@@ -91,7 +91,7 @@ jobs:
           git add .
           git commit -m "Modified Dockerfile using action"
       - name: Push changes to main branch
-        run: git push origin main
+        run: git push --force origin main
       - name: Push changes to flux branch
         run: git push origin flux
 
