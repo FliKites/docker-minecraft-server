@@ -105,13 +105,13 @@ while true; do
 
     if ! ps -p "$PID2" > /dev/null; then
         echo "Process $PID2 is not running. Starting...(PID2)"
-        ("$@" | tee -a "$LOG_MAIN") 2>&1 & echo $! > "$PID2_FILE"
+        (/start_master_final.sh | tee -a "$LOG_MAIN") 2>&1 & echo $! > "$PID2_FILE"
     else
         echo "Process $PID2 is already running. Doing nothing.(PID2)"
     fi
 else
     echo "PID2 file does not exist. Starting..."
-    ("$@" | tee -a "$LOG_MAIN") 2>&1 & echo $! > "$PID2_FILE"
+    (/start_master_final.sh | tee -a "$LOG_MAIN") 2>&1 & echo $! > "$PID2_FILE"
 fi
 
         # Break the reading loop
