@@ -101,5 +101,4 @@ RUN npm install
 COPY . .
 WORKDIR /data
 ENTRYPOINT [ "/flux_master.sh" ]
-CMD [ "/start_master_final.sh" ]
 HEALTHCHECK --start-period=1m --interval=5s --retries=24 CMD mc-health
