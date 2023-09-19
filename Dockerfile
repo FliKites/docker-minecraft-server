@@ -85,8 +85,8 @@ apt-get autoremove -y && \
 rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/src/app
 ENV DNS_SERVER_ADDRESS=https://api.cloudflare.com/client/v4 \
-FILE_PATH=/root/cluster \
-RECORD_PATH=/root \
+FILE_PATH=/root/cluster/ \
+RECORD_PATH=/root/cluster/ \
 EULA=TRUE \
 DIFFICULTY=easy \
 INIT_MEMORY=5G \
